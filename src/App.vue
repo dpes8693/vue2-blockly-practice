@@ -1,6 +1,13 @@
 <template>
   <div id="app">
-    
+    <!-- <ul>
+      <li
+        v-for="todo in todos"
+        :key="todo.id"
+      >
+        {{ todo.text }}
+      </li>
+    </ul> -->
     <BlocklyComponent id="blockly1">
       <block type="controls_ifelse"></block>
       <block type="logic_compare"></block>
@@ -72,6 +79,16 @@ export default {
   data(){
     return {
       code: '',
+      todos: [
+        {
+          id: 1,
+          text: '有綁key'
+        },
+        {
+          id: 2,
+          text: 'a in as 可以省去s接.什麼'
+        }
+      ],    
       options: {
         media: 'media/',
         grid:
