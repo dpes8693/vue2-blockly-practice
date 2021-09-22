@@ -2,11 +2,12 @@
   <div id="app">
     <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent>
     
-    <p id="code">
+    <!-- <p id="code">
       <button v-on:click="showCode()">Show JavaScript</button>
       <pre v-html="code"></pre>
-    </p>
-    <button>123</button>
+      
+    </p> -->
+
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 
 import BlocklyComponent from './components/BlocklyComponent.vue'
 import './blocks/stocks';
+import './prompt';
 
 import BlocklyJS from 'blockly/javascript';
 
@@ -31,8 +33,8 @@ export default {
           {
             spacing: 25,
             length: 3,
-            colour: '#ffffff',
-            snap: true
+            colour: '#ccc',
+            snap: false
           },
         zoom:
         {
@@ -84,7 +86,8 @@ export default {
   methods: {
     showCode() {
       this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);
-    }
+    },
+
   }
 }
 </script>
@@ -97,20 +100,25 @@ export default {
 }
 
 #code {
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 20%;
-  height: 30%;
+  position: relative;
+  top: 100px;
+  left: 82%;
+  /* right: 15% */
+  /* bottom: 0; */
+  /* width: 17%; */
+  /* height: 92%; */
   margin: 0;
   /* background-color: beige; */
 }
 
 #blockly2 {
-  position: absolute;
+  position: fixed;
   left: 0;
   bottom: 0;
+  /* width: 80%;
+  height: 92%; */
   width: 100%;
-  height: 90%;
+  height: 92%;
+
 }
 </style>
