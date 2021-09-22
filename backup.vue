@@ -1,19 +1,74 @@
 <template>
   <div id="app">
+    <!-- <ul>
+      <li
+        v-for="todo in todos"
+        :key="todo.id"
+      >
+        {{ todo.text }}
+      </li>
+    </ul> -->
+    <!-- <BlocklyComponent id="blockly1">
+      <block type="controls_ifelse"></block>
+      <block type="logic_compare"></block>
+      <block type="logic_operation"></block>
+      <block type="controls_repeat_ext">
+          <value name="TIMES">
+              <shadow type="math_number">
+                  <field name="NUM">10</field>
+              </shadow>
+          </value>
+      </block>
+      <block type="logic_operation"></block>
+      <block type="logic_negate"></block>
+      <block type="logic_boolean"></block>
+      <block type="logic_null" disabled="true"></block>
+      <block type="logic_ternary"></block>
+      <block type="text_charAt">
+          <value name="VALUE">
+              <block type="variables_get">
+                  <field name="VAR">text</field>
+              </block>
+          </value>
+      </block>
+    </BlocklyComponent> -->
+
     <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent>
     
     <p id="code">
       <button v-on:click="showCode()">Show JavaScript</button>
       <pre v-html="code"></pre>
     </p>
-    <button>123</button>
   </div>
 </template>
 
 <script>
+/**
+ * @license
+ * 
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/**
+ * @fileoverview Main Vue component that includes the Blockly component.
+ * @author samelh@google.com (Sam El-Husseini)
+ */
 
 import BlocklyComponent from './components/BlocklyComponent.vue'
 import './blocks/stocks';
+// import './prompt';
 
 import BlocklyJS from 'blockly/javascript';
 
@@ -24,7 +79,17 @@ export default {
   },
   data(){
     return {
-      code: '', 
+      code: '',
+      todos: [
+        {
+          id: 1,
+          text: '有綁key'
+        },
+        {
+          id: 2,
+          text: 'a in as 可以省去s接.什麼'
+        }
+      ],    
       options: {
         media: 'media/',
         grid:
@@ -32,7 +97,7 @@ export default {
             spacing: 25,
             length: 3,
             colour: '#ffffff',
-            snap: true
+            snap: false
           },
         zoom:
         {
@@ -40,7 +105,7 @@ export default {
           wheel: true,
           startScale: 1.0,
           maxScale: 2,
-          minScale: 0.5,
+          minScale: 0.6,
           scaleSpeed: 1.2,
           pinch: true
         },          
@@ -76,6 +141,11 @@ export default {
             <block type="text_print"></block>
           </category>
           <category name="Variables" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}">
+            </category>
+          <category name="Stocks" colour="%{BKY_LOOPS_HUE}">
+            <block type="stock_buy_simple"></block>
+            <block type="stock_buy_prog"></block>
+            <block type="stock_fetch_price"></block>
           </category>
         </xml>`
       }
@@ -94,6 +164,11 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+html, body {
+  margin: 0;
 }
 
 #code {
@@ -106,11 +181,19 @@ export default {
   /* background-color: beige; */
 }
 
+#blockly1 {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50%;
+  height: 50%;
+}
+
 #blockly2 {
   position: absolute;
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 90%;
+  height: 97%;
 }
 </style>
