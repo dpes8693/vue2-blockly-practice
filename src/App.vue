@@ -2,12 +2,10 @@
   <div id="app">
     <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent>
     
-    <!-- <p id="code">
-      <button v-on:click="showCode()">Show JavaScript</button>
-      <pre v-html="code"></pre>
-      
-    </p> -->
 
+    <div class="grid-stack h-full w-full">
+      <widget v-for="widget in widgets" :widget="widget" :key="widget.text"/>
+    </div>
   </div>
 </template>
 
@@ -19,10 +17,14 @@ import './prompt';
 
 import BlocklyJS from 'blockly/javascript';
 
+// import 'gridstack/dist/gridstack.min.css';
+// import { GridStack } from 'gridstack';
+
+
 export default {
   name: 'app',
   components: {
-    BlocklyComponent
+    BlocklyComponent,
   },
   data(){
     return {
@@ -85,7 +87,7 @@ export default {
   },
   methods: {
     showCode() {
-      this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);
+      this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);//js
     },
 
   }
@@ -117,8 +119,8 @@ export default {
   bottom: 0;
   /* width: 80%;
   height: 92%; */
-  width: 100%;
-  height: 92%;
+  width: 50%;
+  height: 50%;
 
 }
 </style>

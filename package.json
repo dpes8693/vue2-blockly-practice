@@ -13,6 +13,7 @@
   "dependencies": {
     "blockly": "^3.20200924.4",
     "core-js": "^3.8.1",
+    "gridstack": "^4.2.7",
     "sweetalert2": "^8.19.0",
     "vue": "^2.6.12"
   },
