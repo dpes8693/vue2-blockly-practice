@@ -1,21 +1,21 @@
 <template>
   <div id="app">
-    <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent>
+    <!-- <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent> -->
     
-
-    <div class="grid-stack h-full w-full">
+    <Iframe/>
+    <!-- <div class="grid-stack h-full w-full">
       <widget v-for="widget in widgets" :widget="widget" :key="widget.text"/>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
+import Iframe from './components/iframe.vue' 
+// import BlocklyComponent from './components/BlocklyComponent.vue'
+// import './blocks/stocks';
+// import './prompt';
 
-import BlocklyComponent from './components/BlocklyComponent.vue'
-import './blocks/stocks';
-import './prompt';
-
-import BlocklyJS from 'blockly/javascript';
+// import BlocklyJS from 'blockly/javascript';
 
 // import 'gridstack/dist/gridstack.min.css';
 // import { GridStack } from 'gridstack';
@@ -24,7 +24,8 @@ import BlocklyJS from 'blockly/javascript';
 export default {
   name: 'app',
   components: {
-    BlocklyComponent,
+    // BlocklyComponent,
+    Iframe 
   },
   data(){
     return {
@@ -86,9 +87,9 @@ export default {
     }
   },
   methods: {
-    showCode() {
-      this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);//js
-    },
+    // showCode() {
+    //   this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);//js
+    // },
 
   }
 }

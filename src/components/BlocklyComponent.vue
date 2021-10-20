@@ -28,7 +28,7 @@ export default {
     if (!options.toolbox) {
       options.toolbox = this.$refs["blocklyToolbox"];
     }
-    this.workspace = Blockly.inject(this.$refs["blocklyDiv"], options);
+    this.workspace = Blockly.inject(this.$refs["blocklyDiv"], options);//重要!!
   },
   methods:{
     saveCode(){
