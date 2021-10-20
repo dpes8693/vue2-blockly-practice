@@ -6,29 +6,30 @@
 
 import Blockly from "blockly";
 
+
 const generator = new Blockly.Generator("Ruby");
 generator.PRECEDENCE = 0;
 
 const timers = [
-  ["Timer1",   "usr_t000"],
-  ["Timer2",   "usr_t001"],
-  ["Timer3",   "usr_t002"],
-  ["Timer4",   "usr_t003"],
-  ["Timer5",   "usr_t004"],
+  ["Timer1", "usr_t000"],
+  ["Timer2", "usr_t001"],
+  ["Timer3", "usr_t002"],
+  ["Timer4", "usr_t003"],
+  ["Timer5", "usr_t004"],
 ];
 const counters = [
-  ["Counter1",   "usr_t000"],
-  ["Counter2",   "usr_t001"],
-  ["Counter3",   "usr_t002"],
-  ["Counter4",   "usr_t003"],
-  ["Counter5",   "usr_t004"],
+  ["Counter1", "usr_t000"],
+  ["Counter2", "usr_t001"],
+  ["Counter3", "usr_t002"],
+  ["Counter4", "usr_t003"],
+  ["Counter5", "usr_t004"],
 ];
 const globals = [
-  ["Global1",   "usr_t000"],
-  ["Global2",   "usr_t001"],
-  ["Global3",   "usr_t002"],
-  ["Global4",   "usr_t003"],
-  ["Global5",   "usr_t004"],
+  ["Global1", "usr_t000"],
+  ["Global2", "usr_t001"],
+  ["Global3", "usr_t002"],
+  ["Global4", "usr_t003"],
+  ["Global5", "usr_t004"],
 ];
 const Constants = {
   vibrationSensors: [
@@ -61,9 +62,7 @@ const Constants = {
     ["bit36", "36"],
     ["溫度壯態", "37"],
   ],
-  statusGroupLength: [
-    2, 2, 3
-  ],
+  statusGroupLength: [2, 2, 3],
   statusGroupValue: [
     [
       ["a1", "00"],
@@ -214,7 +213,7 @@ class Logic {
 class StatusGroup {
   static setupGenerator(options) {
     if (options.statusGroup == undefined) {
-      return 
+      return;
     }
     // statusGroup: [
     //   ["bit35", "35"],
@@ -229,15 +228,15 @@ class StatusGroup {
       const bit = `${options.statusGroup[index][1]}`;
       const len = options.statusGroupLength[index];
       // status_group0_set
-      generator[`status_group${index}_set`] = function (block) {
+      generator[`status_group${index}_set`] = function(block) {
         const value = block.getFieldValue("VALUE");
         // Status.set({start_bit},{bit_len},{status_value})`
         // Status.set(35, 2, 0b01)
         const code = `Status.set(${bit}, ${len}, 0b${value})`;
         return code;
       };
-
-      generator[`status_group${index}_get`] = function (block) {
+      // eslint-disable-next-line no-unused-vars
+      generator[`status_group${index}_get`] = function(block) {
         // Status.get({start_bit},{bit_len})`
         // Status.get(35, 2)
         const code = `Status.get(${bit}, ${len})`;
@@ -248,7 +247,7 @@ class StatusGroup {
 
   static insertBlocks(options) {
     if (options.statusGroup == undefined) {
-      return 
+      return;
     }
     // statusGroup: [
     //   ["bit35", "35"],
@@ -285,12 +284,10 @@ class StatusGroup {
           type: `status_group${index}_get`,
 
           message0: "取得%1",
-          args0: [
-            `${name}`
-          ],
+          args0: [`${name}`],
           output: "Number",
           colour: "5ba55b",
-        }
+        },
       ]);
     }
   }
@@ -299,7 +296,7 @@ class StatusGroup {
 class Status {
   static setupGenerator(options) {
     // Status.get({start_bit},{bit_len})`
-    generator["status_get"] = function (block) {
+    generator["status_get"] = function(block) {
       const bit = block.getFieldValue("ID");
       const code = `Status.get(${bit}, 1)`;
       return [code, generator.PRECEDENCE];
@@ -317,7 +314,7 @@ class Status {
     for (index = 0; index < options.status.length; index++) {
       const bit = `${options.status[index][1]}`;
       // status35_set
-      generator[`status${bit}_set`] = function (block) {
+      generator[`status${bit}_set`] = function(block) {
         const value = block.getFieldValue("VALUE");
         // Status.set({start_bit},{bit_len},{status_value})`
         // Status.set(35, 1, 0)
@@ -435,7 +432,7 @@ class Sensor {
   static setupGenerator() {
     generator["sensor_get"] = Util.getValue("Sensor");
     generator["sensor_set"] = Util.setValue("Sensor");
-    generator["vibration_sensor_get"] = function (block) {
+    generator["vibration_sensor_get"] = function(block) {
       const id = block.getFieldValue("ID");
       const x = block.getField("X").getText();
       const y = block.getField("Y").getText();
@@ -523,12 +520,12 @@ class Timer {
   static setupGenerator() {
     generator["timer_get"] = Util.getValue("Timer");
     // timer
-    generator["timer_reset"] = function (block) {
+    generator["timer_reset"] = function(block) {
       const timer = block.getFieldValue("ID");
       const code = `Timer.reset("${timer}")`;
       return code;
     };
-    generator["timer_onoff"] = function (block) {
+    generator["timer_onoff"] = function(block) {
       const timer = block.getFieldValue("ID");
       const value = block.getFieldValue("VALUE");
       const code = `Timer.onoff("${timer}", ${value})`;
@@ -599,12 +596,12 @@ class Counter {
   static setupGenerator() {
     generator["counter_get"] = Util.getValue("Counter");
     // counter
-    generator["counter_reset"] = function (block) {
+    generator["counter_reset"] = function(block) {
       const counter = block.getFieldValue("ID");
       const code = `Counter.reset("${counter}")`;
       return code;
     };
-    generator["counter_count"] = function (block) {
+    generator["counter_count"] = function(block) {
       const counter = block.getFieldValue("ID");
       const code = `Counter.count("${counter}")`;
       return code;
@@ -726,7 +723,7 @@ class Util {
 
 class Program {
   static setupGenerator() {
-    generator["if_else"] = function (block) {
+    generator["if_else"] = function(block) {
       let statement = generator.valueToCode(
         block,
         "STATEMENT",
@@ -792,7 +789,7 @@ class Program {
 
 class Scrub {
   static setupGenerator() {
-    generator.scrub_ = function (block, code, opt_thisOnly) {
+    generator.scrub_ = function(block, code, opt_thisOnly) {
       const nextBlock =
         block.nextConnection && block.nextConnection.targetBlock();
       const nextCode = opt_thisOnly ? "" : generator.blockToCode(nextBlock);
@@ -806,20 +803,20 @@ class Scrub {
 
 class Variable {
   static setupGenerator() {
-    generator["variables_get"] = function (block) {
+    generator["variables_get"] = function(block) {
       const _var = block.getField("VAR").getText();
       const code = _var;
       return [code, generator.PRECEDENCE];
     };
 
-    generator["variables_set"] = function (block) {
+    generator["variables_set"] = function(block) {
       const _var = block.getField("VAR").getText();
       const value = generator.valueToCode(block, "VALUE", generator.PRECEDENCE);
       const code = `${_var} = ${value}`;
       return code;
     };
 
-    generator["math_change"] = function (block) {
+    generator["math_change"] = function(block) {
       const _var = block.getField("VAR").getText();
       const delta = generator.valueToCode(block, "DELTA", generator.PRECEDENCE);
       const code = `${_var} = ${delta}`;
@@ -830,14 +827,14 @@ class Variable {
 
 class _Math {
   static setupGenerator() {
-    generator["math_change"] = function (block) {
+    generator["math_change"] = function(block) {
       const _var = block.getField("VAR").getText();
       const delta = generator.valueToCode(block, "DELTA", generator.PRECEDENCE);
       const code = `${_var} = ${delta}`;
       return code;
     };
 
-    generator["math_number"] = function (block) {
+    generator["math_number"] = function(block) {
       const num = block.getFieldValue("NUM");
       const code = `${num}`;
       return [code, generator.PRECEDENCE];
@@ -889,19 +886,19 @@ class Time {
   }
 
   static setupCommonGenerator(unit) {
-    generator[`${unit}_to`] = function (block) {
+    generator[`${unit}_to`] = function(block) {
       const from = block.getFieldValue("FROM");
       const to = block.getFieldValue("TO");
 
       return [`${from}-${to}`, generator.PRECEDENCE];
     };
 
-    generator[`${unit}_every`] = function (block) {
+    generator[`${unit}_every`] = function(block) {
       const value = block.getFieldValue("VALUE");
       return [`*/${value}`, generator.PRECEDENCE];
     };
 
-    generator[unit] = function (block) {
+    generator[unit] = function(block) {
       const value = block.getFieldValue("VALUE");
       return [`${value}`, generator.PRECEDENCE];
     };
@@ -909,7 +906,7 @@ class Time {
 
   /// 分 時 日 月 星期
   static setupTimeGenerator() {
-    generator["time"] = function (block) {
+    generator["time"] = function(block) {
       const month = generator.valueToCode(block, "MONTH", generator.PRECEDENCE);
       const day = generator.valueToCode(block, "DAY", generator.PRECEDENCE);
       const hour = generator.valueToCode(block, "HOUR", generator.PRECEDENCE);
@@ -1029,7 +1026,7 @@ class Cron {
     /// def a()
     ///     ...
     /// end
-    generator["define_function"] = function (block) {
+    generator["define_function"] = function(block) {
       const functionName = block.getField("NAME").getText();
       const body = generator.statementToCode(
         block,
@@ -1039,13 +1036,13 @@ class Cron {
       return `def ${functionName}\n${body}\nend`;
     };
 
-    generator["get_function"] = function (block) {
+    generator["get_function"] = function(block) {
       const functionName = block.getField("NAME").getText();
 
       return functionName;
     };
 
-    generator["cron"] = function (block) {
+    generator["cron"] = function(block) {
       const value = generator.valueToCode(block, "VALUE", generator.PRECEDENCE);
       const functionName = block.getField("NAME").getText();
       return `Cron.tab(${value}, "${functionName}")`;
@@ -1209,9 +1206,11 @@ class Box {
       return "";
     }
 
-    if (options.statusGroup.length != options.statusGroupValue.length ||
-        options.statusGroup.length != options.statusGroupLength.length) {
-      return "";     
+    if (
+      options.statusGroup.length != options.statusGroupValue.length ||
+      options.statusGroup.length != options.statusGroupLength.length
+    ) {
+      return "";
     }
 
     /// status_group0_set
@@ -1317,7 +1316,7 @@ function dumpXML() {
 function codeGen() {
   const workspace = Blockly.getMainWorkspace();
   const code = generator.workspaceToCode(workspace);
-  console.log(' ===YourCodeIs==== \n'+code+'\n =======')
+  console.log(" ===YourCodeIs==== \n" + code + "\n =======");
   return code;
 }
 
@@ -1336,18 +1335,18 @@ function dumpCode() {
   };
   return JSON.stringify(json);
 }
-
+// eslint-disable-next-line no-unused-vars
 function save() {
   native.save(dumpAll());
 }
-
+// eslint-disable-next-line no-unused-vars
 function load(xmlString) {
   const workspace = Blockly.getMainWorkspace();
   workspace.clear();
   const xml = Blockly.Xml.textToDom(xmlString);
   Blockly.Xml.domToWorkspace(xml, workspace);
 }
-
+// eslint-disable-next-line no-unused-vars
 function onChange(event) {
   const type = event.type;
   const condition =
@@ -1362,8 +1361,8 @@ function onChange(event) {
 
   native.onChange(dumpCode());
 }
-
-let box;
+// eslint-disable-next-line no-unused-vars
+var box;
 function initialize(options) {
   //BLOCKLY_TOOLBOX_XML['standard'],
   //  const box = isUser ? userBox : vendorBox;
@@ -1374,13 +1373,15 @@ function initialize(options) {
   Setup.generator(options);
   Setup.blocks(options);
 
-  setTimeout(function () {
-    const workspace = Blockly.getMainWorkspace();
+  setTimeout(function() {
+    var workspace = Blockly.getMainWorkspace();
     workspace.addChangeListener(onChange);
+    
   }, 1000);
 
   if (document.getElementById("blocklyDiv") != null) {
-    workspacePlayground = Blockly.inject("blocklyDiv", {
+    // eslint-disable-next-line no-unused-vars
+    var workspacePlayground = Blockly.inject("blocklyDiv", {
       media: "media/",
       toolbox: _box,
       zoom: { controls: true },
@@ -1388,7 +1389,7 @@ function initialize(options) {
   }
 }
 
-native = {};
+var native = {};
 if (window.webkit != null) {
   native.onChange = (code) => {
     window.webkit.messageHandlers.onChange.postMessage(code);
@@ -1405,10 +1406,10 @@ if (window.webkit != null) {
   };
 } else {
   native.onChange = (code) => {
-    //console.log(`onChange ${code}`);
+    console.log(`onChange ${code}`);
   };
   native.save = (code) => {
-    //console.log(`save ${code}`);
+    console.log(`save ${code}`);
   };
 }
 
@@ -1417,22 +1418,22 @@ if (window.webkit != null) {
 // }
 function getOS() {
   var userAgent = window.navigator.userAgent,
-      platform = window.navigator.platform,
-      macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-      windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-      iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-      os = null;
+    platform = window.navigator.platform,
+    macosPlatforms = ["Macintosh", "MacIntel", "MacPPC", "Mac68K"],
+    windowsPlatforms = ["Win32", "Win64", "Windows", "WinCE"],
+    iosPlatforms = ["iPhone", "iPad", "iPod"],
+    os = null;
 
   if (macosPlatforms.indexOf(platform) !== -1) {
-    os = 'Mac OS';
+    os = "Mac OS";
   } else if (iosPlatforms.indexOf(platform) !== -1) {
-    os = 'iOS';
+    os = "iOS";
   } else if (windowsPlatforms.indexOf(platform) !== -1) {
-    os = 'Windows';
+    os = "Windows";
   } else if (/Android/.test(userAgent)) {
-    os = 'Android';
+    os = "Android";
   } else if (!os && /Linux/.test(platform)) {
-    os = 'Linux';
+    os = "Linux";
   }
 
   return os;
@@ -1441,8 +1442,11 @@ function getOS() {
 if (getOS() == "Mac OS") {
   initialize(Constants);
 }
-// if (3>1) {
-//   initialize(Constants);
-// }
+// eslint-disable-next-line no-unused-vars
 
-Constants
+export function abcd() {
+  initialize(Constants);
+  // console.log(123)
+}
+
+Constants;

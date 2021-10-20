@@ -1,8 +1,11 @@
 <template>
   <div id="app">
-    <!-- <BlocklyComponent id="blockly2" :options="options" ref="foo"></BlocklyComponent> -->
-    
-    <Iframe/>
+    <BlocklyComponent
+      id="blockly2"
+      :options="options"
+      ref="foo"
+    ></BlocklyComponent>
+
     <!-- <div class="grid-stack h-full w-full">
       <widget v-for="widget in widgets" :widget="widget" :key="widget.text"/>
     </div> -->
@@ -10,47 +13,42 @@
 </template>
 
 <script>
-import Iframe from './components/iframe.vue' 
-// import BlocklyComponent from './components/BlocklyComponent.vue'
-// import './blocks/stocks';
+
+import BlocklyComponent from "./components/BlocklyComponent.vue";
+import "./blocks/stocks";
 // import './prompt';
 
-// import BlocklyJS from 'blockly/javascript';
+import BlocklyJS from "blockly/javascript";
 
 // import 'gridstack/dist/gridstack.min.css';
 // import { GridStack } from 'gridstack';
 
-
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    // BlocklyComponent,
-    Iframe 
+    BlocklyComponent,
   },
-  data(){
+  data() {
     return {
-      code: '', 
+      code: "",
       options: {
-        media: 'media/',
-        grid:
-          {
-            spacing: 25,
-            length: 3,
-            colour: '#ccc',
-            snap: false
-          },
-        zoom:
-        {
+        media: "media/",
+        grid: {
+          spacing: 25,
+          length: 3,
+          colour: "#ccc",
+          snap: false,
+        },
+        zoom: {
           controls: true,
           wheel: true,
           startScale: 1.0,
           maxScale: 2,
           minScale: 0.5,
           scaleSpeed: 1.2,
-          pinch: true
-        },          
-        toolbox:
-        `<xml>
+          pinch: true,
+        },
+        toolbox: `<xml>
           <category name="Logic" colour="%{BKY_LOGIC_HUE}">
             <block type="controls_if"></block>
             <block type="logic_compare"></block>
@@ -82,22 +80,24 @@ export default {
           </category>
           <category name="Variables" custom="VARIABLE" colour="%{BKY_VARIABLES_HUE}">
           </category>
-        </xml>`
-      }
-    }
+        </xml>`,
+      },
+    };
+  },
+  mounted() {
+    
   },
   methods: {
-    // showCode() {
-    //   this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace);//js
-    // },
-
-  }
-}
+    showCode() {
+      this.code = BlocklyJS.workspaceToCode(this.$refs["foo"].workspace); //js
+    },
+  },
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -122,6 +122,5 @@ export default {
   height: 92%; */
   width: 50%;
   height: 50%;
-
 }
 </style>

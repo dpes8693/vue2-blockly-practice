@@ -1,19 +1,22 @@
 <template>
   <div>
-    <div class="blocklyDiv" ref="blocklyDiv"></div>
-    <xml ref="blocklyToolbox" style="display:none">
+    <div class="blocklyDiv" ref="blocklyDiv" id="blocklyDiv"></div>
+    <!-- <xml ref="blocklyToolbox" style="display:none">
       <slot></slot>
     </xml>
     <button class="a" @click="saveCode">save</button>
-    <button class="b" @click="loadCode">load</button>
+    <button class="b" @click="loadCode">load</button> -->
   </div>
 </template>
 
 <script>
 
+
 import Blockly from 'blockly';
 // import * as Ch from 'blockly/msg/zh-hant'
 // Blockly.setLocale(Ch)
+import { abcd } from "../blockly_files/blockly/custom_generator";
+// import { abcd } from "../ut/a";
 
 export default {
   name: 'BlocklyComponent',
@@ -24,11 +27,12 @@ export default {
     }
   },
   mounted() {
-    var options = this.$props.options || {};
-    if (!options.toolbox) {
-      options.toolbox = this.$refs["blocklyToolbox"];
-    }
-    this.workspace = Blockly.inject(this.$refs["blocklyDiv"], options);//重要!!
+    abcd()
+    // var options = this.$props.options || {};
+    // if (!options.toolbox) {
+    //   options.toolbox = this.$refs["blocklyToolbox"];
+    // }
+    // this.workspace = Blockly.inject(this.$refs["blocklyDiv"], options);//重要!!
   },
   methods:{
     saveCode(){
